@@ -11,4 +11,4 @@ The project aims at automating the usual management system of IUT Cafeteria. Fea
     iv) Admins will scrutinize the complains and take steps accordingly
     v) Food menu can be viewed
     vi) Suggestions about the improvement of cafeteria as well as inclusion of any new feature to this project can be provided
-    vii) The project has been made robust through the use of databse management system underlying the API which was quite difficult with            the traditional file system approach
+    vii) The project has been made robust through the use of databse management system underlying the API which was quite difficult with the traditional file system approach
