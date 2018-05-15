@@ -4,6 +4,14 @@
 
 
 
+student::student()
+{
+	id = 0;
+	name = "";
+	is_res = 0;
+	credit_card = 0;
+}
+
 student::student(int _id, string _name, int _is_res, int _credit_card)
 {
 	id = _id;

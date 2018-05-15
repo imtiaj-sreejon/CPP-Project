@@ -9,6 +9,7 @@ class student
 	int is_res;
 	int credit_card;
 public:
+	student();
 	student(int _id, string _name, int _is_res, int _credit_card);
 	int get_id();
 	string get_name();
