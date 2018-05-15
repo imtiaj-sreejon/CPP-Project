@@ -96,12 +96,14 @@ void admin::delete_addmin()
 
 		// check if id to be deleted exists
 		int x;
-		cmd.setCommandText("check_admin"); // prototype: check_admin(id in number, x out varchar2)
+
+		// prototype: check_admin(id in number, x out varchar2)
+		cmd.setCommandText("check_admin"); 
 		cmd.Param("input_id").setAsLong() = del_id; // pass parameters
 		
 		cmd.Execute();
 
-		// get the return value of the check procedure
+		// get the name from the check procedure if admin exists
 		string admin_name = string(cmd.Param("x").asString());
 
 		if (admin_name == "not found")
@@ -138,7 +140,52 @@ void admin::delete_addmin()
 
 void admin::show_admin()
 {
-	return;
+	SAConnection con;
+
+	try
+	{
+		// connect to database
+		con.Connect(
+			"XE",     // database name
+			"cpp_proj",   // user name
+			"test123",   // password
+			SA_Oracle_Client);
+		SACommand cmd(&con);
+
+		cmd.setCommandText("select * from admin"); // set command for selection
+		cmd.Execute();
+
+		// check if result exists
+		bool isResult = cmd.isResultSet();
+		if (!isResult)
+		{
+			cout << "No Admin exists\n";
+			return;
+		}
+		else
+		{
+			while (cmd.FetchNext())
+			{
+				cout << cmd[1].asLong() << "\t\t\t" << string(cmd[2].asString()) << "\n";
+			}
+			cout << "\n";
+		}
+	}
+	catch (SAException &x)
+	{
+		// SAConnection::Rollback()
+		try
+		{
+			// on error rollback changes
+			cout << "rolling back.....";
+			con.Rollback();
+		}
+		catch (SAException &)
+		{
+		}
+		// print error message
+		printf("%s\n", (const char*)x.ErrText());
+	}
 }
 
 admin::~admin()
