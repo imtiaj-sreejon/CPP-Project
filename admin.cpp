@@ -136,6 +136,11 @@ void admin::delete_addmin()
 	}
 }
 
+void admin::show_admin()
+{
+	return;
+}
+
 admin::~admin()
 {
 }

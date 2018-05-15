@@ -17,6 +17,7 @@ void manage_admins()
 	map <int, string> ::iterator itr;
 
 	// print the menu
+	print_menu:
 	cout << "\t\t\tMENU\n\n";
 	for (itr = madmin_options.begin(); itr != madmin_options.end(); itr++)
 	{
@@ -51,9 +52,26 @@ void manage_admins()
 			// create admin object
 			admin ob(id, name);
 			ob.add_admin();
+			goto print_menu;
+			break;
+		}
+		case 2: // delete admin
+		{
+			admin ob;
+			ob.delete_addmin();
+			goto print_menu;
+			break;
+		}
+		case 3: // show admin
+		{
+			admin ob;
+			ob.show_admin();
+			goto print_menu;
+			break;
 		}
 		case 4:
 			menu();
+			break;
 		default:
 			cout << "invalid input\n";
 			break;
