@@ -29,14 +29,11 @@ void menu()
 		cout << "Enter option number: ";
 		cin >> temp;
 		int num;
-		if (temp.size() > 1)
-			num = 15;
-		else if (temp[0] >= '0' && temp[0] < '9')
+		
+		if (temp.size() == 1 && temp[0] >= '0' && temp[0] < '9')
 			num = temp[0] - '0';
 		else
 			num = 15;
-		//cout << temp[0] <<  "eta" << endl;
-		//if (!(choice >= 0 && choice <= 9)) choice = 4;
 
 		// review choice
 		switch (num)
