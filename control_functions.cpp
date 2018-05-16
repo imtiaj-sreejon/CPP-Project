@@ -42,14 +42,20 @@ void menu()
 		{
 			system("cls");
 			string newline, name;
-			string pass;
+			string pass = "";
 			// a trailing '\n' remains after previous cin
 			// newline will take that '\n'
 			getline(cin, newline);
 			cout << "Enter master user name: \n";
 			getline(cin, name);
 			cout << "Enter master password: ";
-			cin >> pass;
+			char a;
+			while (1) {
+				a = _getch();
+				if (a == 13) break;
+				cout << "*";
+				pass += a;
+			}
 
 			//call master function
 			master(name, pass);
@@ -59,11 +65,17 @@ void menu()
 		{
 			system("cls");
 			string name;
-			string pass;
+			string pass = "";
 			cout << "Enter admin user name: ";
 			getline(cin, name);
 			cout << "Enter admin password: ";
-			cin >> pass;
+			char a;
+			while (1) {
+				a = _getch();
+				if (a == 13) break;
+				cout << "*";
+				pass += a;
+			}
 
 			// call admin function
 			admin_func(name, pass);
@@ -115,17 +127,19 @@ void master(string name, string passwd)
 
 	map <int, string> ::iterator itr;
 
-	// print the menu
-	cout << "\n\t\t\tMASTER MENU\n\n";
-	for (itr = master_options.begin(); itr != master_options.end(); itr++)
-	{
-		cout << "\t\t" << itr->first << "\t\t" << itr->second << "\n";
-	}
+	
 
 	//ask for menu choice
 	//string choice;
 	while (1)
 	{
+		// print the menu
+		cout << "\n\t\t\tMASTER MENU\n\n";
+		for (itr = master_options.begin(); itr != master_options.end(); itr++)
+		{
+			cout << "\t\t" << itr->first << "\t\t" << itr->second << "\n";
+		}
+
 		string temp;
 		cout << "Enter option number: ";
 		cin >> temp;
@@ -158,13 +172,13 @@ void master(string name, string passwd)
 		case 4:
 		{
 			system("cls");
-			cout << "program terminated";
+			cout << "program terminated\n";
 			exit(1);
 		}
 		default:
 		{	
 			cout << "invalid input\n";
-		break;
+			break;
 		}
 		}
 	}
