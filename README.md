@@ -7,7 +7,7 @@ The project aims at automating the usual management system of IUT Cafeteria. Fea
 
     i) Non-residential students can book their next meals beforehand through their smart card
     ii) Admins will be able to add students to the database for ensuring security
-    iii) Students will be able to complain about their meal
+    iii) Students will be able to comment about their meal
     iv) Admins will scrutinize the complains and take steps accordingly
     v) Food menu can be viewed
     vi) Suggestions about the improvement of cafeteria as well as inclusion of any new feature to this project can be provided
