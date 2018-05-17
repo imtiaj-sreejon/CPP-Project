@@ -7,14 +7,16 @@ class student
 	int id;
 	string name;
 	int is_res;
-	int credit_card;
 public:
 	student();
-	student(int _id, string _name, int _is_res, int _credit_card);
+	student(int _id, string _name, int _is_res);
 	int get_id();
 	string get_name();
 	int get_is_res();
-	int get_credit_card();
+
+	void add_student();
+	void delete_student();
+	void show_student();
 	~student();
 };
 
