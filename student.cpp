@@ -131,6 +131,53 @@ void student::delete_student()
 
 void student::show_student()
 {
+	SAConnection con;
+	try
+	{
+		// connect to database
+		con.Connect(
+			"XE",     // database name
+			"cpp_proj",   // user name
+			"test123",   // password
+			SA_Oracle_Client);
+		SACommand cmd(&con);
+
+		cmd.setCommandText("select * from student"); // set command for selection
+		cmd.Execute();
+
+		// check if result exists
+		bool isResult = cmd.isResultSet();
+		if (!isResult)
+		{
+			cout << "No Student is Present!\n";
+			return;
+		}
+		else
+		{
+			cout << "\tID\t\t" << "\tNAME\t\t" << "\tIS_RES\n";
+			cout << "---------------\t" << "    " << "\t----------------" << "    " << "\t----------------\n";
+			while (cmd.FetchNext())
+			{
+				cout << "\t" << cmd[1].asLong() << "\t\t\t" << string(cmd[2].asString()) << "\t\t\t" << cmd[3].asLong() << "\n";
+			}
+			cout << "\n";
+		}
+	}
+	catch (SAException &x)
+	{
+		// SAConnection::Rollback()
+		try
+		{
+			// on error rollback changes
+			cout << "rolling back.....";
+			con.Rollback();
+		}
+		catch (SAException &)
+		{
+		}
+		// print error message
+		printf("%s\n", (const char*)x.ErrText());
+	}
 }
 
 student::~student()
