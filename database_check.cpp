@@ -96,4 +96,9 @@ void store_pass(string name, string pass)
 	}
 }
 
+int check_smartcard(int id)
+{
+	return 0;
+}
+
 
