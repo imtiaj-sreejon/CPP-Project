@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "student.h"
+#include "database_check.h"
 #include <SQLAPI.h>
 #include <ora7API.h>
 #include <oraAPI.h>
@@ -84,6 +85,48 @@ void student::add_student()
 
 void student::delete_student()
 {
+	int del_id;
+	cout << "Enter id of student to delete: ";
+	cin >> del_id;
+
+	int present = check_student(del_id); // check if student with given id is present
+	if (present)
+	{
+		SAConnection con;
+		try
+		{
+			// connect to database
+			con.Connect(
+				"XE",     // database name
+				"cpp_proj",   // user name
+				"test123",   // password
+				SA_Oracle_Client);
+			SACommand cmd(&con);
+
+			// delete admin
+			cmd.setCommandText("delete from student where id=:1");
+			cmd.Param(1).setAsLong() = del_id;
+			cmd.Execute();
+			cout << "Student id '" << del_id << "' deleted successfully\n";
+			con.Commit();
+		}
+		catch (SAException &x)
+		{
+			// SAConnection::Rollback()
+			try
+			{
+				// on error rollback changes
+				cout << "rolling back.....";
+				con.Rollback();
+			}
+			catch (SAException &)
+			{
+			}
+			// print error message
+			printf("%s\n", (const char*)x.ErrText());
+		}
+		con.Disconnect();
+	}
 }
 
 void student::show_student()
