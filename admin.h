@@ -4,8 +4,9 @@ using namespace std;
 
 class admin
 {
-	int emp_id;
+	int admin_id;
 	string name;
+	string passwd;
 public:
 	admin();
 	admin(int _id, string _name);
