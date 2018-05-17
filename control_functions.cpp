@@ -79,20 +79,25 @@ void menu()
 		case 2:
 		{
 			system("cls");
-			string name;
+			string name, newline;
 			string pass = "";
+
+			// a trailing '\n' remains after previous cin
+			// newline will take that '\n'
+			getline(cin, newline);
+
 			cout << "Enter admin user name: ";
 			getline(cin, name);
 
 			// check if admin exists
 			string check_pass = check_admin(name);
-			if (check_pass == "not found")
+			if (check_pass == "hello")
 			{
 				cout << "You are logging in for the first time\nChange the password\n";
 				while (1)
 				{
 					pass = "";
-					cout << "Enter new password: ";
+					cout << "\nEnter new password: ";
 					char a;
 					while (1) {
 						a = _getch();
@@ -103,7 +108,7 @@ void menu()
 					}
 					// confirm new password
 					string temp_pass = "";
-					cout << "Confirm pasword: ";
+					cout << "\nConfirm pasword: ";
 					while (1) {
 						a = _getch();
 						if (a == 8) continue;
@@ -113,30 +118,46 @@ void menu()
 					}
 					if (pass != temp_pass)
 					{
-						cout << "passwords do not match\nenter again\n";
-						continue; // again go back to ask password
+						// again go back to ask password
+						cout << "passwords do not match\nenter again....";
+						continue; 
 					}
 					else // store the password 
 					{
-
+						store_pass(name, pass);
+						break;
 					}
 				}
+				// call admin function
+				admin_func();
 			}
 			else
 			{
-				cout << "Enter admin password: ";
-				char a;
-				while (1) {
-					a = _getch();
-					if (a == 8) continue;
-					if (a == 13) break;
-					cout << "*";
-					pass += a;
+				while (1)
+				{
+					pass = "";
+					cout << "Enter admin password: ";
+					char a;
+					while (1) {
+						a = _getch();
+						if (a == 8) continue;
+						if (a == 13) break;
+						cout << "*";
+						pass += a;
+					}
+					if (check_pass != pass)
+					{
+						cout << "incorrect password\n";
+						continue;
+					}
+					else
+					{
+						break;
+					}
 				}
+				// call admin function
+				admin_func();			
 			}
-
-			// call admin function
-			admin_func(name, pass);
 			break;
 		}
 		case 3:
@@ -182,18 +203,16 @@ void master(string passwd)
 	map <int, string> ::iterator itr;
 
 	
-
-	//ask for menu choice
-	//string choice;
 	while (1)
 	{
 		// print the menu
-		cout << "\n\t\t\tMASTER MENU\n\n";
+		cout << "\n\t\t\t|MASTER MENU|\n\n";
 		for (itr = master_options.begin(); itr != master_options.end(); itr++)
 		{
 			cout << "\t\t" << itr->first << "\t\t" << itr->second << "\n";
 		}
 
+		//ask for menu choice
 		string temp;
 		cout << "Enter option number: ";
 		cin >> temp;
@@ -215,7 +234,7 @@ void master(string passwd)
 		case 2:
 		{
 			system("cls");
-			admin_func("genesis", "1569");
+			admin_func();
 			break;
 		}
 		case 3:
@@ -239,8 +258,77 @@ void master(string passwd)
 
 
 // can add or delete student
-// can see and review complaints
+// can see and review comments
 // can manage food_menu
-void admin_func(string name, string passwd)
+void admin_func()
 {
+	map <int, string> admin_options;
+
+	// map menu options into numbers
+	admin_options.insert(pair <int, string>(1, "Manage Students"));
+	admin_options.insert(pair <int, string>(2, "Manage Food Menu"));
+	admin_options.insert(pair <int, string>(3, "Manage Comments"));
+	admin_options.insert(pair <int, string>(4, "Go Back to Main Menu"));
+	admin_options.insert(pair <int, string>(5, "Exit program"));
+
+	map <int, string> ::iterator itr;
+
+	
+	while (1)
+	{
+		// print the menu
+		cout << "\n\t\t\t|Admin MENU|\n\n";
+		for (itr = admin_options.begin(); itr != admin_options.end(); itr++)
+		{
+			cout << "\t\t" << itr->first << "\t\t" << itr->second << "\n";
+		}
+
+		//ask for menu choice
+		string temp;
+		cout << "Enter option number: ";
+		cin >> temp;
+		int choice;
+		if (temp[0] >= '0' && temp[0] < '9')
+			choice = temp[0] - '0';
+		else
+			choice = 15;
+
+		// review choice
+		switch (choice)
+		{
+		case 1:
+		{
+			system("cls");
+			manage_students();
+			break;
+		}
+		case 2:
+		{
+			system("cls");
+			manage_food();
+			break;
+		}
+		case 3:
+		{
+			system("cls");
+			manage_comments();
+			break;
+		}
+		case 4:
+		{
+			system("cls");
+			menu();
+		}
+		case 5:
+		{
+			cout << "program terminated\n";
+			exit(1);
+		}
+		default:
+		{
+			cout << "invalid input\n";
+			break;
+		}
+		}
+	}
 }
