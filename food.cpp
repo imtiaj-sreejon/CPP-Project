@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "food.h"
 #include "database_check.h"
+#include <iomanip>
 #include <SQLAPI.h>
 #include <ora7API.h>
 #include <oraAPI.h>
@@ -59,5 +60,58 @@ void add_food()
 		// print error message
 		printf("%s\nInvalid input\n", (const char*)x.ErrText());
 		return;
+	}
+}
+
+void show_foods()
+{
+
+	SAConnection con;
+	try
+	{
+		// connect to database
+		con.Connect(
+			"XE",     // database name
+			"cpp_proj",   // user name
+			"test123",   // password
+			SA_Oracle_Client);
+		SACommand cmd(&con);
+
+		cmd.setCommandText("select * from food_menu"); // set command for selection
+		cmd.Execute();
+
+		// check if result exists
+		bool isResult = cmd.isResultSet();
+		if (!isResult)
+		{
+			cout << "No food item is Present!\n";
+			return;
+		}
+		else
+		{
+			cout << "\tDAY\t\t" << "\tMEAL TIME\t\t" << "\tITEMS\n";
+			cout << "--------------------\t" << "    " << "\t-----------------------" << "    " << "\t-----------------------------------\n";
+			while (cmd.FetchNext())
+			{
+				cout << "\t" << setw(10)<< left << string(cmd[1].asString()) << setw(10) << left  << "\t" << string(cmd[2].asString()) << "\t\t" <<  setw(10) << left << string(cmd[3].asString()) << "\n";
+			}
+			cout << "\n";
+		}
+		con.Disconnect();
+	}
+	catch (SAException &x)
+	{
+		// SAConnection::Rollback()
+		try
+		{
+			// on error rollback changes
+			cout << "rolling back.....";
+			con.Rollback();
+		}
+		catch (SAException &)
+		{
+		}
+		// print error message
+		printf("%s\n", (const char*)x.ErrText());
 	}
 }
