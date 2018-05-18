@@ -61,10 +61,6 @@ void student::add_student()
 		cout << "student '" << name << "' successfully added\n";
 		con.Commit(); // commit on success
 
-		// Disconnect is optional
-		// autodisconnect will ocur in destructor if needed
-		con.Disconnect();
-		cout << "We are disconnected!\n";
 	}
 	catch (SAException &x)
 	{
@@ -81,6 +77,7 @@ void student::add_student()
 		// print error message
 		printf("%s\n", (const char*)x.ErrText());
 	}
+	con.Disconnect();
 }
 
 void student::delete_student()
@@ -155,7 +152,7 @@ void student::show_student()
 		else
 		{
 			cout << "\tID\t\t" << "\tNAME\t\t" << "\tIS_RES\n";
-			cout << "---------------\t" << "    " << "\t----------------" << "    " << "\t----------------\n";
+			cout << "---------------\t" << "    " << "\t-------------------" << "    " << "\t----------------\n";
 			while (cmd.FetchNext())
 			{
 				cout << "\t" << cmd[1].asLong() << "\t\t\t" << string(cmd[2].asString()) << "\t\t\t" << cmd[3].asLong() << "\n";
@@ -178,6 +175,7 @@ void student::show_student()
 		// print error message
 		printf("%s\n", (const char*)x.ErrText());
 	}
+	con.Disconnect();
 }
 
 student::~student()
