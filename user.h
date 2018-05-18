@@ -2,5 +2,6 @@
 #include "stdafx.h"
 using namespace std;
 
-string generate_token(int res, int st_id);
+int get_order(int res, int st_id);
+string generate_token(int st_id);
 void comment();
